@@ -40,17 +40,17 @@ small {
 /* SWIPER STYLES */
 .swiper-button-next,
 .swiper-button-prev {
-  color: rgb(0, 145, 181) !important;
-  fill: rgb(0, 145, 181) !important;
-  stroke: rgb(0, 145, 181) !important;
+  color: rgb(92, 33, 241) !important;
+  fill: rgb(92, 33, 241) !important;
+  stroke: rgb(92, 33, 241) !important;
 }
 
 .swiper-pagination-bullet {
-  background-color: rgb(0, 145, 181) !important;
+  background-color: rgb(92, 33, 241) !important;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: rgb(0, 145, 181) !important;
+  background-color: rgb(92, 33, 241) !important;
 }
 
 /* LINK STYLES */
