@@ -7,7 +7,7 @@ import Loading from '@/components/ui/Loading';
 import Error from '@/components/ui/Error';
 import { beautyPackageType } from '@/Types/beautyPackage';
 import Link from 'next/link';
-import { cn } from '@/app/lib/utils';
+import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 
 interface BeautyPackagesProps {

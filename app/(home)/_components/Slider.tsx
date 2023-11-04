@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/app/lib/utils';
+import { cn } from '@/lib/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';

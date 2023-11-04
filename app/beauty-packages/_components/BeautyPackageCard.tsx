@@ -1,5 +1,5 @@
 import { beautyPackageType } from '@/Types/beautyPackage';
-import { cn } from '@/app/lib/utils';
+import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 import Image from 'next/image';
 import Link from 'next/link';

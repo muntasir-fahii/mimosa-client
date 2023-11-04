@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { buttonVariants } from './ui/Button';
-import { cn } from '@/app/lib/utils';
+import { cn } from '@/lib/utils';
 
 const navContents = [
   { href: '/', label: 'Home' },
