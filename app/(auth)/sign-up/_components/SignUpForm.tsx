@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/ui/Button';
+import { photoUrlCheker } from '@/helpers/photoUrlCheker';
 import { axiosPost } from '@/lib/axiosPost';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,12 +11,16 @@ import toast from 'react-hot-toast';
 interface SignInFormData {
   email: string;
   password: string;
+  name: string;
+  photoUrl: string;
 }
 
-const SignInForm = () => {
+const SignUpForm = () => {
   const [formData, setFormData] = useState<SignInFormData>({
     email: '',
     password: '',
+    name: '',
+    photoUrl: '',
   });
   const [isLoading, setIsloading] = useState<boolean>(false);
 
@@ -27,19 +32,27 @@ const SignInForm = () => {
 
       setIsloading(true);
 
-      const data = await axiosPost('/api/auth/login', formData);
+      const hasPermitted = photoUrlCheker(formData.photoUrl);
 
-      if (data) {
-        setIsloading(false);
-        setFormData({
-          email: '',
-          password: '',
-        });
+      if (hasPermitted) {
+        const data = await axiosPost('/api/auth/register', formData);
 
-        toast.success('Login successful');
-        router.push('/');
+        if (data) {
+          setIsloading(false);
+          setFormData({
+            email: '',
+            password: '',
+            name: '',
+            photoUrl: '',
+          });
+
+          toast.success('Register successful');
+          router.push('/');
+        } else {
+          setIsloading(false);
+        }
       } else {
-        setIsloading(false);
+        toast.error('Please past a photo url from pexels/unsplash/cloudinary');
       }
     },
     [formData, router]
@@ -48,14 +61,27 @@ const SignInForm = () => {
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col gap-1.5'>
-        <h2>Welcome Back!</h2>
-        <p className='text-black/50'>Please Login to your account</p>
+        <h2>Create an account</h2>
+        <p className='text-black/50'>Please provide your details to register</p>
       </div>
 
       <form
         onSubmit={handleSubmit}
         className='flex w-full flex-col gap-5 text-lg'
       >
+        <div className='flex flex-col items-start gap-1.5'>
+          <label htmlFor='email' className='cursor-pointer'>
+            Name
+          </label>
+          <input
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            type='text'
+            id='name'
+            placeholder='john wick'
+            className='eq w-full rounded-xl border border-gray bg-transparent px-5 py-3 outline-none focus:border-blue'
+          />
+        </div>
         <div className='flex flex-col items-start gap-1.5'>
           <label htmlFor='email' className='cursor-pointer'>
             Email address
@@ -88,14 +114,30 @@ const SignInForm = () => {
           />
         </div>
 
+        <div className='flex flex-col items-start gap-1.5'>
+          <label htmlFor='password' className='cursor-pointer'>
+            Photo Url
+          </label>
+          <input
+            value={formData.photoUrl}
+            onChange={(e) =>
+              setFormData({ ...formData, photoUrl: e.target.value })
+            }
+            type='text'
+            id='photoUrl'
+            placeholder='Paste your photo url from pexels/unsplash/cloudinary'
+            className='eq w-full rounded-xl border border-gray bg-transparent px-5 py-3 outline-none focus:border-blue'
+          />
+        </div>
+
         <Button variant={'secondary'} type='submit' isLoading={isLoading}>
-          Login
+          Register
         </Button>
 
         <p>
-          <span className='text-black/50'>Do not have an account? </span>
-          <Link href='/sign-up' className='link-item'>
-            Register
+          <span className='text-black/50'>Already have an account? </span>
+          <Link href='/sign-in' className='link-item'>
+            Login
           </Link>
         </p>
       </form>
@@ -103,4 +145,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
