@@ -2,10 +2,12 @@
 
 import Button from '@/components/ui/Button';
 import { axiosPost } from '@/lib/axiosPost';
+import { login } from '@/redux/features/auth/authSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
 interface SignInFormData {
   email: string;
@@ -20,6 +22,7 @@ const SignInForm = () => {
   const [isLoading, setIsloading] = useState<boolean>(false);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmit = useCallback(
     async (e: React.SyntheticEvent) => {
@@ -35,6 +38,7 @@ const SignInForm = () => {
           email: '',
           password: '',
         });
+        dispatch(login(data));
 
         toast.success('Login successful');
         router.push('/');
@@ -42,7 +46,7 @@ const SignInForm = () => {
         setIsloading(false);
       }
     },
-    [formData, router]
+    [formData, router, dispatch]
   );
 
   return (

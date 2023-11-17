@@ -3,10 +3,12 @@
 import Button from '@/components/ui/Button';
 import { photoUrlCheker } from '@/helpers/photoUrlCheker';
 import { axiosPost } from '@/lib/axiosPost';
+import { login } from '@/redux/features/auth/authSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
 interface SignInFormData {
   email: string;
@@ -25,6 +27,7 @@ const SignUpForm = () => {
   const [isLoading, setIsloading] = useState<boolean>(false);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmit = useCallback(
     async (e: React.SyntheticEvent) => {
@@ -45,7 +48,7 @@ const SignUpForm = () => {
             name: '',
             photoUrl: '',
           });
-
+          dispatch(login(data));
           toast.success('Register successful');
           router.push('/');
         } else {
@@ -55,7 +58,7 @@ const SignUpForm = () => {
         toast.error('Please past a photo url from pexels/unsplash/cloudinary');
       }
     },
-    [formData, router]
+    [formData, router, dispatch]
   );
 
   return (
@@ -130,7 +133,7 @@ const SignUpForm = () => {
           />
         </div>
 
-        <Button variant={'secondary'} type='submit' isLoading={isLoading}>
+        <Button variant={'tertiary'} type='submit' isLoading={isLoading}>
           Register
         </Button>
 
